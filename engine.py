@@ -2,6 +2,7 @@ import tcod as libtcod
 
 from entity import Entity
 from input_handlers import handle_keys
+from render_functions import clear_all, render_all
 
 def main():
     screen_width = 80
@@ -9,13 +10,16 @@ def main():
 
     #  Initializing player, NPC, etc imported from Entity class
     player = Entity(int(screen_height / 2), int(screen_width / 2), '@', libtcod.white)
-    npc = Entity(int(screen_height / 2, int(screen_width /2 - 5), '@', libtcod.yellow))
+    npc = Entity(int(screen_height / 2), int(screen_width /2 - 5), '@', libtcod.yellow)
     entities = [npc, player]
 
     # we’re telling libtcod which file and font to use
     libtcod.console_set_custom_font('arial10x10.png', libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD)
     # creates the screen - width/height, title, fullscreen False
     libtcod.console_init_root(screen_width, screen_height, 'rougelike', False)
+
+    con = libtcod.console_new(screen_width, screen_height)
+
     # these variables will hold our keyboard and mouse input
     key = libtcod.Key()
     mouse = libtcod.Mouse()
@@ -24,13 +28,17 @@ def main():
         # captures new 'events' (user input). Updates the key and mouse variables with what the user inputs
         libtcod.sys_check_for_event(libtcod.EVENT_KEY_PRESS, key, mouse)
         # set the color for our ‘@’ symbol, 0 is the console we're drawing to
-        libtcod.console_set_default_foreground(0, libtcod.white)
+        # libtcod.console_set_default_foreground(0, libtcod.white)
         # 0 is the console we are printing to, x, y coords
-        libtcod.console_put_char(con, player.x, player.y, '@', libtcod.BKGND_NONE)
+        # libtcod.console_put_char(con, player.x, player.y, '@', libtcod.BKGND_NONE)
+
+        render_all(con, entities, screen_width, screen_height)
+
         # presents it to the screen
         libtcod.console_flush()
-        libtcod.console_put_char(con, player.x, player.y, ' ', libtcod.BKGND_NONE)
-        libtcod.console_put_char(0, player.x, player.y, ' ', libtcod.BKGND_NONE)
+        # libtcod.console_put_char(con, player.x, player.y, ' ', libtcod.BKGND_NONE)
+        # libtcod.console_put_char(0, player.x, player.y, ' ', libtcod.BKGND_NONE)
+        clear_all(con, entities)
 
         # We’re capturing the return value of handle_keys in the variable action (which is a dict)
         action = handle_keys(key)

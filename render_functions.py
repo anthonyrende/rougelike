@@ -1,12 +1,13 @@
 import tcod as libtcod
 
 # Will draw our entites, map
-def render_all(con, entities, screen_width, screen_height, 0, 0, 0):
+def render_all(con, entities, screen_width, screen_height):
     # Draw all entities in the list
     for entity in entities:
         draw_entity(con, entity)
 
     libtcod.console_blit(con, 0, 0, screen_width, screen_height, 0, 0, 0)
+    
 
 def clear_all(con, entities):
     for entity in entities:
