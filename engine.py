@@ -3,10 +3,19 @@ import tcod as libtcod
 from entity import Entity
 from input_handlers import handle_keys
 from render_functions import clear_all, render_all
+from map_objects.game_map import GameMap
 
 def main():
     screen_width = 80
     screen_height = 50
+    map_width = 80
+    map_height = 45
+
+    # These colors will serve as our wall and ground outside the FOV
+    colors = {
+        'dark_wall': libtcod.Color(0, 0, 100),
+        'dark_ground': libtcod.Color(50, 50, 150)
+    }
 
     #  Initializing player, NPC, etc imported from Entity class
     player = Entity(int(screen_height / 2), int(screen_width / 2), '@', libtcod.white)
@@ -19,6 +28,8 @@ def main():
     libtcod.console_init_root(screen_width, screen_height, 'rougelike', False)
 
     con = libtcod.console_new(screen_width, screen_height)
+    # Init GameMap
+    game_map = GameMap(map_width, map_height)
 
     # these variables will hold our keyboard and mouse input
     key = libtcod.Key()
@@ -32,7 +43,7 @@ def main():
         # 0 is the console we are printing to, x, y coords
         # libtcod.console_put_char(con, player.x, player.y, '@', libtcod.BKGND_NONE)
 
-        render_all(con, entities, screen_width, screen_height)
+        render_all(con, entities,game_map, screen_width, screen_height, colors)
 
         # presents it to the screen
         libtcod.console_flush()
