@@ -60,8 +60,9 @@ def main():
 
         if move:
             dx, dy = move
-            # Entity class handles the actual movement
-            player.move(dx, dy)
+            if not game_map.is_blocked(player.x + dx, player.y + dy):
+                # Entity class handles the actual movement
+                player.move(dx, dy)
         # check if the key pressed was the Esc, exit
         if exit:
             return True
