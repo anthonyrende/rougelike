@@ -1,13 +1,15 @@
 import tcod as libtcod
 
+from entity import Entity
 from input_handlers import handle_keys
 
 def main():
     screen_width = 80
     screen_height = 50
 
-    player_x = int(screen_width / 2)
-    player_y = int(screen_height / 2)
+    player = Entity(int(screen_height / 2), int(screen_width / 2), '@', libtcod.white)
+    npc = Entity(int(screen_height / 2, int(screen_width /2 - 5), '@', libtcod.yellow))
+    entities = [npc, player]
 
     # we’re telling libtcod which file and font to use
     libtcod.console_set_custom_font('arial10x10.png', libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD)
