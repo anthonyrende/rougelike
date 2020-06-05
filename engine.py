@@ -7,6 +7,7 @@ def main():
     screen_width = 80
     screen_height = 50
 
+    #  Initializing player, NPC, etc imported from Entity class
     player = Entity(int(screen_height / 2), int(screen_width / 2), '@', libtcod.white)
     npc = Entity(int(screen_height / 2, int(screen_width /2 - 5), '@', libtcod.yellow))
     entities = [npc, player]
@@ -25,9 +26,12 @@ def main():
         # set the color for our ‘@’ symbol, 0 is the console we're drawing to
         libtcod.console_set_default_foreground(0, libtcod.white)
         # 0 is the console we are printing to, x, y coords
-        libtcod.console_put_char(0, player_x, player_y, '@', libtcod.BKGND_NONE)
+        libtcod.console_put_char(con, player.x, player.y, '@', libtcod.BKGND_NONE)
         # presents it to the screen
         libtcod.console_flush()
+        libtcod.console_put_char(con, player.x, player.y, ' ', libtcod.BKGND_NONE)
+        libtcod.console_put_char(0, player.x, player.y, ' ', libtcod.BKGND_NONE)
+
         # We’re capturing the return value of handle_keys in the variable action (which is a dict)
         action = handle_keys(key)
 
@@ -37,8 +41,8 @@ def main():
 
         if move:
             dx, dy = move
-            player_x += dx
-            player_y += dy
+            # Entity class handles the actual movement
+            player.move(dx, dy)
         # check if the key pressed was the Esc, exit
         if exit:
             return True
