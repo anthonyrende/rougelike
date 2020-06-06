@@ -30,6 +30,7 @@ def main():
     con = libtcod.console_new(screen_width, screen_height)
     # Init GameMap
     game_map = GameMap(map_width, map_height)
+    game_map.make_map()
 
     # these variables will hold our keyboard and mouse input
     key = libtcod.Key()
